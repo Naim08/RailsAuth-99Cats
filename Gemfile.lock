@@ -84,6 +84,8 @@ GEM
     debug_inspector (1.1.0)
     digest (3.1.0)
     erubi (1.10.0)
+    faker (3.0.0)
+      i18n (>= 1.8.11, < 2)
     globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.10.0)
@@ -113,6 +115,8 @@ GEM
       timeout
     nio4r (2.5.8)
     nokogiri (1.13.6-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.6-x86_64-linux)
       racc (~> 1.4)
     pg (1.4.0)
     pry (0.14.1)
@@ -172,6 +176,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   annotate
@@ -179,6 +184,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   byebug
+  faker
   pg (~> 1.1)
   pry-rails
   puma (~> 5.0)

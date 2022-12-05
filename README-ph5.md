@@ -95,6 +95,6 @@ necessary for authentication, built a `SessionsController` for creating and
 destroying a session, and learned how to implement and use a `current_user`
 method.
 
-[live-demo]: https://ninetyninecats.herokuapp.com/
+[live-demo]: https://aa-99-cats.herokuapp.com/
 [`before_action`]: https://guides.rubyonrails.org/action_controller_overview.html#filters
 [Postman]: https://www.getpostman.com/

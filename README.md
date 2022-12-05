@@ -120,6 +120,6 @@ Build a `SessionsController`:
 
 Good work! Now head to Phase V.
 
-[live-demo]: https://ninetyninecats.herokuapp.com/
+[live-demo]: https://aa-99-cats.herokuapp.com/
 [`before_action`]: https://guides.rubyonrails.org/action_controller_overview.html#filters
 [docs-helper_method]:https://api.rubyonrails.org/classes/AbstractController/Helpers/ClassMethods.html#method-i-helper_method
