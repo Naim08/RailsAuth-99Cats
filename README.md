@@ -4,7 +4,7 @@
 
 Today you will add users and login capabilities to your 99Cats application.
 
-## Learning Goals
+## Learning goals
 
 - Be able to create a user authentication system
   - Know the user model's methods that are required for authentication
