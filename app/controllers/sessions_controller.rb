@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  before_action :require_logged_out, only: %i[new create]
+  before_action :require_logged_in, only: [:destroy]
   def new
     @user = User.new
     render :new
