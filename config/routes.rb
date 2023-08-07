@@ -3,15 +3,17 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  root "cats#index"
+  root 'cats#index'
 
   resources :cats, except: :destroy do
     resources :cat_rental_requests, only: [:new]
   end
-  resources :cat_rental_requests, only: [:new, :create] do
+  resources :cat_rental_requests, only: %i[new create] do
     member do
       post :approve
       post :deny
     end
   end
+
+  resources :users, only: %i[new create]
 end
