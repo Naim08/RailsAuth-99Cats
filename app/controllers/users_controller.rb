@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
-    render json: @user
+    render :show
   end
 
 
@@ -14,6 +14,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save!
+      login!(@user)
       redirect_to user_url(@user)
     else
       flash.now[:errors] = @user.errors.full_messages

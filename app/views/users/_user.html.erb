@@ -1,0 +1,11 @@
+<ul>
+    <li><%= user.username %></li>
+
+
+    <% if type == :show %>
+        <li><a href="<%= users_url %>">Users Index</a></li>
+        <li><a href="<%= new_user_url(@user) %>">Edit <%= @user.username %></a></li>
+    <% else %>
+        <li><a href="<%= user_url(user) %>"><%=user.username%>'s Show Page</a></li>
+    <% end %>
+</ul>
