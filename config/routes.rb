@@ -16,4 +16,6 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: %i[new create show index destroy]
+
+  resources :sessions, only: %i[new create destroy]
 end
