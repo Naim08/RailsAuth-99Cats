@@ -15,7 +15,7 @@ require 'action_view'
 
 class Cat < ApplicationRecord
   include ActionView::Helpers::DateHelper
-
+  validates :owner_id, presence: true
   # .freeze renders a constant immutable.
   CAT_COLORS = %w[black white orange brown].freeze
 
@@ -26,11 +26,18 @@ class Cat < ApplicationRecord
   validates :birth_date, :name, presence: true
   validate :birth_date_cannot_be_future
 
+  belongs_to :owner,
+             class_name: :User,
+             foreign_key: :owner_id,
+             primary_key: :id,
+             inverse_of: :cats
+
+  belongs_to :user, foreign_key: :owner_id, inverse_of: :cats
   # Remember: `has_many` is just a method where the first argument is the name
   # of the association and the second argument is an options hash.
   has_many :rental_requests,
-    class_name: :CatRentalRequest,
-    dependent: :destroy
+           class_name: :CatRentalRequest,
+           dependent: :destroy
 
   def birth_date_cannot_be_future
     # Must check that birth_date is present because `>` will crash if run on
@@ -42,5 +49,9 @@ class Cat < ApplicationRecord
 
   def age
     time_ago_in_words(birth_date)
+  end
+
+  def owner_name
+    User.find(owner_id).username
   end
 end

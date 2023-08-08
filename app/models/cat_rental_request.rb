@@ -20,17 +20,22 @@ class CatRentalRequest < ApplicationRecord
   validates :end_date, :start_date, presence: true
   validate :start_must_come_before_end
   validate :does_not_overlap_approved_request
+  validates :requester_id, presence: true
+
+  belongs_to :requester,
+             class_name: :User,
+             foreign_key: :requester_id
 
   belongs_to :cat
 
   after_initialize :assign_pending_status
 
   def approve!
-    raise 'not pending' unless self.status == 'PENDING'
+    raise 'not pending' unless status == 'PENDING'
 
     transaction do
       self.status = 'APPROVED'
-      self.save!
+      save!
 
       # When you approve this request, you reject all other overlapping
       # requests for this cat.
@@ -41,20 +46,20 @@ class CatRentalRequest < ApplicationRecord
   end
 
   def approved?
-    self.status == 'APPROVED'
+    status == 'APPROVED'
   end
 
   def denied?
-    self.status == 'DENIED'
+    status == 'DENIED'
   end
 
   def deny!
     self.status = 'DENIED'
-    self.save!
+    save!
   end
 
   def pending?
-    self.status == 'PENDING'
+    status == 'PENDING'
   end
 
   private
@@ -126,10 +131,10 @@ class CatRentalRequest < ApplicationRecord
     # 3. That overlaps.
 
     CatRentalRequest
-      .where.not(id: self.id)
-      .where(cat_id: cat_id)
+      .where.not(id:)
+      .where(cat_id:)
       .where.not('start_date > :end_date OR end_date < :start_date',
-                 start_date: start_date, end_date: end_date)
+                 start_date:, end_date:)
   end
 
   def overlapping_approved_requests
@@ -144,7 +149,7 @@ class CatRentalRequest < ApplicationRecord
     # A denied request doesn't need to be checked. A pending request
     # should be checked; users shouldn't be able to make requests for
     # periods during which a cat has already been spoken for.
-    return if self.denied? || overlapping_approved_requests.empty?
+    return if denied? || overlapping_approved_requests.empty?
 
     errors.add(:base, 'Request conflicts with existing approved request')
   end

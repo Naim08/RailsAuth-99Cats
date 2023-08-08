@@ -1,4 +1,12 @@
 class CatsController < ApplicationController
+  before_action :require_logged_in, only: %i[new create edit update]
+  before_action :require_cat_owner, only: %i[edit update]
+
+  def require_cat_owner
+    @cat = current_user.cats.find_by(id: params[:id])
+    redirect_to cats_url if @cat.nil?
+  end
+
   def index
     @cats = Cat.all
     render :index
@@ -15,22 +23,27 @@ class CatsController < ApplicationController
   end
 
   def create
+    # debugger
+    params[:cat][:owner_id] = current_user.id
+    debugger
     @cat = Cat.new(cat_params)
     if @cat.save
       redirect_to cat_url(@cat)
     else
+      # debugger
       flash.now[:errors] = @cat.errors.full_messages
       render :new
     end
   end
 
   def edit
-    @cat = Cat.find(params[:id])
+    @cat = current_user.cats.find_by(id: params[:id])
+
     render :edit
   end
 
   def update
-    @cat = Cat.find(params[:id])
+    @cat = current_user.cats.find_by(id: params[:id])
     if @cat.update(cat_params)
       redirect_to cat_url(@cat)
     else
@@ -42,6 +55,6 @@ class CatsController < ApplicationController
   private
 
   def cat_params
-    params.require(:cat).permit(:birth_date, :color, :description, :name, :sex)
+    params.require(:cat).permit(:birth_date, :color, :description, :name, :sex, :owner_id)
   end
 end

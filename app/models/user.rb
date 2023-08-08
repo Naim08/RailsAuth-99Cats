@@ -6,6 +6,8 @@ class User < ApplicationRecord
   before_validation :ensure_session_token
   attr_reader :password
 
+  has_many :cats, dependent: :destroy, foreign_key: :owner_id, inverse_of: :owner
+  has_many :rental_requests, dependent: :destroy, foreign_key: :requester_id, inverse_of: :requester
   def self.generate_unique_session_token
     token = SecureRandom.urlsafe_base64
     token = SecureRandom.urlsafe_base64 while User.exists?(session_token: token)
